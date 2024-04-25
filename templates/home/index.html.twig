@@ -1,0 +1,74 @@
+{# templates/home/index.html.twig #}
+{% extends "base.html.twig" %}
+
+{% block title %}Centre B : Accueil
+{% endblock %}
+{% block page_name %}
+	Menu Hebdomadaire
+{% endblock %}
+{% block body %}
+	<head>
+		<meta charset='utf-8'/>
+		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('calendar');
+var calendarEvents = [
+{
+title: 'Service Midi',
+startTime: '12:00', // heure de début du service du midi
+endTime: '14:00', // heure de fin du service du midi
+daysOfWeek: [
+1,
+2,
+3,
+4,
+5
+], // Lundi à Vendredi
+color: '#FFD700' // Couleur jaune pour le service du midi
+}, {
+title: 'Service Soir',
+startTime: '19:00', // heure de début du service du soir
+endTime: '21:00', // heure de fin du service du soir
+daysOfWeek: [
+1,
+2,
+3,
+4,
+5
+], // Lundi à Vendredi
+color: '#FF6347' // Couleur tomate pour le service du soir
+}
+];
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'timeGridWeek', // Affiche seulement les jours d'une semaine
+slotLabelFormat: { // Supprime les heures et affiche "Service 1" et "Service 2"
+hour: 'numeric',
+minute: '2-digit',
+omitZeroMinute: false,
+hour12: false
+},
+allDaySlot: false,
+hiddenDays: [
+0, 6
+], // Masque les dimanches (0) et les samedis (6)
+headerToolbar: {
+left: 'prev,next today',
+center: 'title',
+right: 'dayGridWeek,dayGridDay'
+},
+slotMinTime: '11:45',
+slotMaxTime: '21:15',
+expandRows: true,
+height: 850,
+events: calendarEvents
+});
+calendar.setOption('locale', 'fr');
+calendar.render();
+});
+		</script>
+	</head>
+	<body>
+		<div id='calendar'></div>
+	</body>
+{% endblock %}

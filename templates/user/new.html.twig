@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User
+{% endblock %}
+{% block page_name %}
+	Nouveau Compte
+{% endblock %}
+
+{% block body %}
+
+	{{ form_errors(form) }}
+
+	{{ form_start(form, {'attr': {'class': 'needs-validation', 'id': 'form_new_user'}}) }}
+	<div class="mb-3">
+		{{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+		{{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'exampleInputEmail1', 'aria-describedby': 'emailHelp'}}) }}
+	</div>
+
+	<div class="mb-3">
+		{{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+		{{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'exampleInputPassword1'}}) }}
+	</div>
+
+	<div class="row">
+		<div class="col-md-6 mb-3">
+			{{ form_label(form.nom, null, {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+		</div>
+		<div class="col-md-6 mb-3">
+			{{ form_label(form.prenom, null, {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+		</div>
+	</div>
+
+	<div class="mb-3">
+		{{ form_label(form.roles, null, {'label_attr': {'class': 'form-label'}}) }}
+		{{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
+	</div>
+
+	<div id="additional-fields" style="display: none; margin-bottom: 15px;">
+		{{ form_label(form.formation, null, {'label_attr': {'class': 'form-label'}}) }}
+		{{ form_widget(form.formation, {'attr': {'class': 'form-control'}}) }}
+	</div>
+
+	<button type="submit" class="btn btn-success">
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewbox="0 0 16 16">
+			<path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+		</svg>
+		Valider
+	</button>
+	{{ form_end(form) }}
+
+
+	<script>
+		// Function to toggle the additional field
+function toggleAdditionalField() {
+const rolesSelect = document.getElementById('user_roles');
+const additionalFieldContainer = document.getElementById('additional-fields');
+
+const selectedRoles = Array.from(rolesSelect.selectedOptions).map(opt => opt.value);
+console.log(selectedRoles);
+
+if (selectedRoles.includes('ROLE_STUDENT')) {
+additionalFieldContainer.style.display = 'block';
+} else {
+additionalFieldContainer.style.display = 'none';
+}
+}
+
+// Call the function initially
+toggleAdditionalField();
+
+// Call the toggleAdditionalField function every 0.5 seconds
+setInterval(toggleAdditionalField, 200);
+	</script>
+
+{% endblock %}
