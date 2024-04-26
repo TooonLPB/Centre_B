@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@linways/table-to-excel": "^1.0.4",
     "fullcalendar": "^6.1.11"
   }
 }

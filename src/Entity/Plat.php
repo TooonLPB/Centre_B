@@ -39,10 +39,17 @@ class Plat
     #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'entree')]
     private Collection $menus;
 
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'Type')]
+    private Collection $commandes;
+
     public function __construct()
     {
         $this->allergenes = new ArrayCollection();
         $this->menus = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +153,36 @@ class Plat
             // set the owning side to null (unless already changed)
             if ($menu->getEntree() === $this) {
                 $menu->setEntree(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getType() === $this) {
+                $commande->setType(null);
             }
         }
 

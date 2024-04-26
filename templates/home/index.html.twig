@@ -7,68 +7,137 @@
 	Menu Hebdomadaire
 {% endblock %}
 {% block body %}
-	<head>
-		<meta charset='utf-8'/>
-		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-		<script>
-			document.addEventListener('DOMContentLoaded', function () {
-var calendarEl = document.getElementById('calendar');
-var calendarEvents = [
-{
-title: 'Service Midi',
-startTime: '12:00', // heure de début du service du midi
-endTime: '14:00', // heure de fin du service du midi
-daysOfWeek: [
-1,
-2,
-3,
-4,
-5
-], // Lundi à Vendredi
-color: '#FFD700' // Couleur jaune pour le service du midi
-}, {
-title: 'Service Soir',
-startTime: '19:00', // heure de début du service du soir
-endTime: '21:00', // heure de fin du service du soir
-daysOfWeek: [
-1,
-2,
-3,
-4,
-5
-], // Lundi à Vendredi
-color: '#FF6347' // Couleur tomate pour le service du soir
-}
-];
-var calendar = new FullCalendar.Calendar(calendarEl, {
-initialView: 'timeGridWeek', // Affiche seulement les jours d'une semaine
-slotLabelFormat: { // Supprime les heures et affiche "Service 1" et "Service 2"
-hour: 'numeric',
-minute: '2-digit',
-omitZeroMinute: false,
-hour12: false
-},
-allDaySlot: false,
-hiddenDays: [
-0, 6
-], // Masque les dimanches (0) et les samedis (6)
-headerToolbar: {
-left: 'prev,next today',
-center: 'title',
-right: 'dayGridWeek,dayGridDay'
-},
-slotMinTime: '11:45',
-slotMaxTime: '21:15',
-expandRows: true,
-height: 850,
-events: calendarEvents
-});
-calendar.setOption('locale', 'fr');
-calendar.render();
-});
-		</script>
-	</head>
-	<body>
-		<div id='calendar'></div>
-	</body>
+	<div class="menu container-fluid">
+		<div class="row mx-lg-n5">
+			<div class="col  menuBorder  menuHeader text-center" style="border-top-left-radius: 20px"></div>
+			<div class="col py-3 px-lg-5 menuBorder  menuHeader text-center">Lundi
+				<br>
+				{{ menu[menu|last.id - 20].date | date("Y-m-d") }}
+			</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuHeader text-center">Mardi
+				<br>
+				{{ menu[menu|last.id - 18].date | date("Y-m-d") }}
+			</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuHeader text-center">Mercredi
+				<br>
+				{{ menu[menu|last.id - 16].date | date("Y-m-d") }}
+			</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuHeader text-center">Jeudi
+				<br>
+				{{ menu[menu|last.id - 14].date | date("Y-m-d") }}
+			</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuHeader text-center" style="border-top-right-radius: 20px">Vendredi
+				<br>
+				{{ menu[menu|last.id - 12].date | date("Y-m-d") }}
+			</div>
+		</div>
+		<div class="row mx-lg-n5 align-items-center">
+			<div class="col  menuBorder  menuLeft text-center">Service 1</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 20].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 20].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 20].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 20].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 20].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 20].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 20].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 18].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 18].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 18].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 18].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 18].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 18].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 18].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 16].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 16].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 16].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 16].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 16].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 16].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 16].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 14].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 14].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 14].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 14].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 14].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 14].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 14].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 12].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 12].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 12].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 12].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 12].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 12].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 12].dessert.nom}}</div>
+		</div>
+		<div class="row mx-lg-n5 align-items-center">
+			<div class="col menuBorder  menuLeft text-center" style="border-bottom-left-radius: 20px">Service 2</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 19].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 19].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 19].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 19].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 19].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 19].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 19].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 17].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 17].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 17].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 17].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 17].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 17].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 17].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 15].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 15].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 15].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 15].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 15].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 15].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 15].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center">
+				{{ menu[menu|last.id - 13].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 13].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 13].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 13].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 13].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 13].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 13].dessert.nom}}</div>
+			<div class="col py-3 px-lg-5 menuBorder  menuContent text-center " style="border-bottom-right-radius: 20px">
+				{{ menu[menu|last.id - 11].entree.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 11].entree.composition}}<br><br>
+				{{ menu[menu|last.id - 11].platun.nom}}<br>
+				composition :
+				{{ menu[menu|last.id - 11].platun.composition}}<br><br>
+				{{ menu[menu|last.id - 11].platdeux.nom}}<br>
+				{{ menu[menu|last.id - 11].plattrois.nom}}<br>
+				{{ menu[menu|last.id - 11].dessert.nom}}</div>
+		</div>
+	</div>
+
+
 {% endblock %}

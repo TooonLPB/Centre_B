@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Menu index
+{% endblock %}
+
+{% block body %}
+	<div class="back">
+		{% for menu in menus %}
+			<div class="menu m-5" style="padding: 15px">
+				<div class="menu_title">
+					<h2>
+						Menu n°
+						{{ menu.id}}
+						Jour :
+						{{ menu.date ? menu.date|date('d-m-Y') : '' }}
+
+					</h2>
+					<h4>
+						Service :
+						{{ menu.service }}
+					</h4>
+				</div>
+				<div class="menu_info m-sm-3">
+					<div class="menu_entree">
+						<h3>
+							Entrée
+						</h3>
+						<p>
+							{{ menu.entree.nom }}
+						</p>
+					</div>
+					<div class="menu_plat1">
+						<h3>
+							Plat
+						</h3>
+						<p>
+							{{ menu.platun.nom }}
+						</p>
+					</div>
+					<div class="menu_plat2">
+						<h3>
+							Plat 2
+						</h3>
+						<p>
+							{{ menu.platdeux.nom }}
+						</p>
+					</div>
+					<div class="menu_plat3">
+						<h3>
+							Plat 3
+						</h3>
+						<p>
+							{{ menu.plattrois.nom }}
+						</p>
+					</div>
+					<div class="menu_dessert">
+						<h3>
+							Dessert
+						</h3>
+						<p>
+							{{ menu.dessert.nom }}
+						</p>
+					</div>
+				</div>
+				<a class="show_btn" href="{{ path('app_commande_new', {'menuId': menu.id}) }}">
+					<button class="btn btn-dark">
+						Commander
+					</button>
+				</a>
+			</div>
+			{% else %}
+		{% endfor %}
+
+		<a href="{{ path('app_menu_new') }}" class="link_btn m-5">
+			<button class="add">
+				<span class="add_span">
+					+
+				</span>
+				<div class="add_div"></div>
+			</button>
+		</a>
+	</div>
+{% endblock %}

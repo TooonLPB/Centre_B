@@ -10,21 +10,32 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Route('/plat')]
 class PlatController extends AbstractController
 {
+    
     #[Route('/', name: 'app_plat_index', methods: ['GET'])]
-    public function index(PlatRepository $platRepository): Response
+    public function index(PlatRepository $platRepository, Security $security): Response
     {
+        $user = $security->getUser();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse('/');
+        }
         return $this->render('plat/index.html.twig', [
             'plats' => $platRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_plat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
+        $user = $security->getUser();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse('/');
+        }
         $plat = new Plat();
         $form = $this->createForm(PlatType::class, $plat);
         $form->handleRequest($request);
@@ -43,16 +54,24 @@ class PlatController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_plat_show', methods: ['GET'])]
-    public function show(Plat $plat): Response
+    public function show(Plat $plat, Security $security): Response
     {
+        $user = $security->getUser();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse('/');
+        }
         return $this->render('plat/show.html.twig', [
             'plat' => $plat,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_plat_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Plat $plat, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Plat $plat, EntityManagerInterface $entityManager, Security $security): Response
     {
+        $user = $security->getUser();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse('/');
+        }
         $form = $this->createForm(PlatType::class, $plat);
         $form->handleRequest($request);
 
@@ -69,8 +88,12 @@ class PlatController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_plat_delete', methods: ['POST'])]
-    public function delete(Request $request, Plat $plat, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Plat $plat, EntityManagerInterface $entityManager, Security $security): Response
     {
+        $user = $security->getUser();
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse('/');
+        }
         if ($this->isCsrfTokenValid('delete'.$plat->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($plat);
             $entityManager->flush();

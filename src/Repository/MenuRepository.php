@@ -21,6 +21,15 @@ class MenuRepository extends ServiceEntityRepository
         parent::__construct($registry, Menu::class);
     }
 
+    public function findFutureMenus(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.date > :now')
+            ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Menu[] Returns an array of Menu objects
 //     */

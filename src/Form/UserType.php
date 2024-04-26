@@ -22,6 +22,7 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
+                // 'disabled'=> true ,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',

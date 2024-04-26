@@ -63,14 +63,29 @@ class UserController extends AbstractController
         ]);
     }
 
+    
+
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user, Security $security): Response
+public function show(User $user, Security $security): Response
+{
+    if (!$this->isGranted('ROLE_ADMIN') && $user !== $security->getUser()) {
+        return $this->redirectToRoute('/');
+    }
+
+    return $this->render('user/show.html.twig', [
+        'user' => $user,
+    ]);
+}
+
+
+    #[Route('/{id}/historique', name: 'app_user_show_historique', methods: ['GET'])]
+    public function showhistorique(User $user, Security $security): Response
     {
         $user = $security->getUser();
         if (!$this->isGranted('ROLE_ADMIN')) {
             return new RedirectResponse('/');
         }
-        return $this->render('user/show.html.twig', [
+        return $this->render('user/showHistorique.html.twig', [
             'user' => $user,
         ]);
     }
@@ -80,23 +95,18 @@ class UserController extends AbstractController
     {
         $currentUser = $security->getUser();
     
-        // Vérifie si l'utilisateur connecté est un administrateur
         if (!$this->isGranted('ROLE_ADMIN')) {
-            // Si l'utilisateur connecté n'est pas un administrateur, vérifie s'il essaie de modifier son propre compte
             if ($currentUser !== $user) {
-                // Si l'utilisateur connecté essaie de modifier un autre compte que le sien, redirige-le vers la page d'accueil ou une page d'erreur
                 return new RedirectResponse('/');
             }
         }
-    
+        $currentUser->getRoles()[0];
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
-            // Vérifie si un nouveau mot de passe est fourni
             $newPassword = $form->get('password')->getData();
             if (!empty($newPassword)) {
-                // Met à jour le mot de passe seulement si un nouveau mot de passe est fourni
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
@@ -105,7 +115,6 @@ class UserController extends AbstractController
                 );
             }
     
-            // Seul un administrateur peut modifier les rôles d'un utilisateur
             if ($this->isGranted('ROLE_ADMIN')) {
                 $user->setRoles([$form->get('roles')->getData()]);
             }
@@ -128,17 +137,14 @@ class UserController extends AbstractController
     {
         $currentUser = $security->getUser();
         if (!$this->isGranted('ROLE_ADMIN', $currentUser)) {
-            // Redirection si l'utilisateur actuel n'a pas le rôle ADMIN
             return new RedirectResponse('/');
         }
         
-        // Vérification du token CSRF pour sécuriser la suppression
         if ($this->isCsrfTokenValid('delete' . $userToDelete->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($userToDelete); // Suppression de l'utilisateur
-            $entityManager->flush(); // Enregistrement des changements dans la base de données
+            $entityManager->remove($userToDelete);
+            $entityManager->flush();
         }
 
-        // Redirection vers la liste des utilisateurs après la suppression
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }

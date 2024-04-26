@@ -6,6 +6,12 @@
 {% endblock %}
 
 {% block body %}
+	<style>
+		#header_top h2 {
+			margin-left: 25%;
+			margin-right: auto;
+		}
+	</style>
 	<form method="post" id="login_form">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -25,7 +31,7 @@
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 		<button class="btn btn-lg btn-primary" type="submit">
-			Sign in
+			Connexion
 		</button>
 	</form>
 {% endblock %}

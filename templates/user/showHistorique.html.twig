@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande us
+{% endblock %}
+{%block page_name %}
+	{{user.nom}}
+	{{user.prenom}}
+{% endblock %}
+
+{% block body %}
+
+	<style>
+		div {
+			display: flex;
+			margin: 10px;
+		}
+
+		div a {
+			margin-right: 10px;
+		}
+	</style>
+
+	<table class="table" id="users-inscription">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Service</th>
+				<th>Type de plat séléctionner</th>
+				<th class="hideInExcel">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for commande in commandes %}
+				<tr>
+					<td>{{ commande.dateAndTimeOfOrder|date("Y-m-d H:i:s") }}</td>
+					<td>{{ commande.MenuId.id }}</td>
+					<td>{{ commande.Type.regime }}</td>
+					<td class="hideInExcel">
+						<a href="{{ path('app_commande_edit',{'id': user.id}) }}" class="btn btn-warning">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewbox="0 0 16 16">
+								<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+								<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+							</svg>
+							Modifier
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<div>
+		<a href="{{ path('app_user_index') }}" class="btn btn-primary">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewbox="0 0 16 16">
+				<path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"></path>
+			</svg>
+			Retour liste utilisateurs
+		</a>
+
+		<a onclick="exportToExcel()" class="btn btn-success">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-xlsx" viewbox="0 0 16 16">
+				<path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823q.195.162.479.252.284.091.665.091.507 0 .858-.158.355-.158.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176.37.37 0 0 1-.143-.299q0-.234.184-.384.188-.152.513-.152.214 0 .37.068a.6.6 0 0 1 .245.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.44 0-.777.15-.336.149-.527.421-.19.273-.19.639 0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.326.5.5 0 0 1-.085.29.56.56 0 0 1-.255.193q-.168.07-.413.07-.176 0-.32-.04a.8.8 0 0 1-.249-.115.58.58 0 0 1-.255-.384zm-3.726-2.909h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016-1.228-1.983h.931l.832 1.438h.036zm1.923 3.325h1.697v.674H5.266v-3.999h.791zm7.636-3.325h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016-1.228-1.983h.931l.832 1.438h.036z"/>
+			</svg>
+			Télécharger
+		</a>
+
+		{{ include('user/_delete_form.html.twig') }}
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+	<script>
+		function exportToExcel() {
+var table = document.getElementById("users-inscription");
+if (! table) {
+console.error('La table n\'a pas été trouvée.');
+return;
+}
+
+var wb = XLSX.utils.book_new(); // workbook
+var ws = XLSX.utils.table_to_sheet(table);
+// table to sheet
+
+for (var i = 0; i < table.rows.length; i++) {
+var row = table.rows[i];
+for (var j = 0; j < row.cells.length; j++) {
+var cellElement = row.cells[j];
+var cellAddress = XLSX.utils.encode_cell({r: i, c: j});
+var cell = ws[cellAddress];
+if (cellElement.classList.contains('hideInExcel')) {
+delete ws[cellAddress];
+}
+}
+}
+
+XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+var wbout = XLSX.write(wb, {
+bookType: 'xlsx',
+type: 'binary'
+});
+saveAsExcelFile(wbout, "{{ user.nom|replace({' ': '_', '/': '_', '\\\\': '_'}) }}-{{ user.prenom|replace({' ': '_', '/': '_', '\\\\': '_'}) }}_Inscription.xlsx");
+}
+
+function saveAsExcelFile(buffer, fileName) {
+var blob = new Blob([s2ab(buffer)], {type: "application/octet-stream"});
+var url = window.URL.createObjectURL(blob);
+var link = document.createElement("a");
+link.href = url;
+link.setAttribute("download", fileName);
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+}
+
+function s2ab(s) {
+var buf = new ArrayBuffer(s.length);
+var view = new Uint8Array(buf);
+for (var i = 0; i < s.length; i++) 
+view[i] = s.charCodeAt(i) & 0xFF;
+
+
+
+return buf;
+}
+	</script>
+
+
+{% endblock %}

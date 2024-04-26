@@ -20,10 +20,11 @@
 			<a href="{{ path('home')}}">Accueil</a>
 			{% if app.user %}
 				{% if is_granted('ROLE_STUDENT') %}
-					<a href="">Inscription</a>
+					<a href="{{ path('app_menu_student')}}">Réserver</a>
 				{% elseif is_granted('ROLE_ADMIN') %}
-					<a href="{{ path('app_user_index')}}">Gestion Utilisateurs</a>
 					<a href="{{ path('app_user_new')}}">Créer compte</a>
+					<a href="{{ path('app_user_index')}}">Gestion Utilisateurs</a>
+					<a href="{{ path('app_commande_index')}}">Les Commandes</a>
 				{% endif %}
 				<a href="{{ path('app_logout') }}">
 					Déconnexion

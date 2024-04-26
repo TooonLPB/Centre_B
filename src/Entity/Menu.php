@@ -45,18 +45,23 @@ class Menu
     private ?Plat $dessert = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $quantité = null;
+    private ?int $quantitéviande = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $quantitépoisson = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $quantitévegi = null;
 
     /**
-     * @var Collection<int, User>
+     * @var Collection<int, Commande>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'inscription')]
-    private Collection $users;
-
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'MenuId')]
+    private Collection $commandes;
     public function __construct()
     {
         $this->plats = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,40 +165,67 @@ class Menu
         return $this;
     }
 
-    public function getQuantité(): ?int
+    public function getQuantitéViande(): ?int
     {
-        return $this->quantité;
+        return $this->quantitéviande;
     }
 
-    public function setQuantité(?int $quantité): static
+    public function setQuantitéViande(?int $quantitéviande): static
     {
-        $this->quantité = $quantité;
+        $this->quantitéviande = $quantitéviande;
+
+        return $this;
+    }
+
+    public function getQuantitépoisson(): ?int
+    {
+        return $this->quantitépoisson;
+    }
+
+    public function setQuantitépoisson(?int $quantitépoisson): static
+    {
+        $this->quantitépoisson = $quantitépoisson;
+
+        return $this;
+    }
+
+    public function getQuantitévegi(): ?int
+    {
+        return $this->quantitévegi;
+    }
+
+    public function setQuantitévegi(?int $quantitévegi): static
+    {
+        $this->quantitévegi = $quantitévegi;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Commande>
      */
-    public function getUsers(): Collection
+    public function getCommandes(): Collection
     {
-        return $this->users;
+        return $this->commandes;
     }
 
-    public function addUser(User $user): static
+    public function addCommande(Commande $commande): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addInscription($this);
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setMenuId($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeCommande(Commande $commande): static
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeInscription($this);
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getMenuId() === $this) {
+                $commande->setMenuId(null);
+            }
         }
 
         return $this;
