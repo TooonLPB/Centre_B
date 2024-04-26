@@ -7,4 +7,15 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+
+
+
+
+//edit label commande_Type
+
+document.addEventListener("DOMContentLoaded", function () {
+    var label = document.querySelector('label[for="commande_Type"]');
+    if (label) {
+    label.textContent = "Choisissez votre plat"; // Modifiez ceci pour changer le texte
+    }
+    });

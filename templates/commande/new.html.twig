@@ -2,22 +2,24 @@
 
 {% block title %}Nouvelle Commande
 {% endblock %}
+{% block page_name %}Nouvelle Commande
+{% endblock %}
 
 {% block body %}
-	<h1>Nouvelle Commande</h1>
-	<p>Le menu contient comme entrée:
-		{{starterIds.nom}}
-		et comme dessert:
-		{{dessertIds.nom}}</p>
-	<a href="{{ path('app_menu_student') }}" class="btn btn-primary">
-		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewbox="0 0 16 16">
-			<path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"></path>
-		</svg>
-		Retour
-	</a>
-	<a href="{{ path('app_user_index') }}" class="btn btn-primary">
-		Sauvegarder
-	</a>
-	{{ include('commande/_form.html.twig') }}
+	<div id="inscription-menu">
+		<p>Le menu contient en entrée :
+			{{starterIds.nom}}
+			<br>
+			Le dessert :
+			{{dessertIds.nom}}</p>
 
+		{{ include('commande/_form.html.twig') }}
+		<br>
+		<a href="{{ path('app_menu_student') }}" class="btn btn-primary">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewbox="0 0 16 16">
+				<path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"></path>
+			</svg>
+			Retour
+		</a>
+	</div>
 {% endblock %}

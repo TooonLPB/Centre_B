@@ -201,3 +201,26 @@ section {
 .menuContent {
     height: 40vh;
 }
+
+
+/* Inscription menu*/
+
+#inscription-menu {
+    padding: 15px;
+}
+
+#commande label {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#commande select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background-color: white;
+}
+
